@@ -1,0 +1,7 @@
+# format of lines in this file:
+# IE number, constant_name, length in bytes, coding type, table column name, description
+
+176, IPFIX_FT_SOURCEPODNAMESPACE,        65535, IPFIX_CODING_STRING, "sourcePodNamespace", ""
+177, IPFIX_FT_SOURCEPODNAME,             65535, IPFIX_CODING_STRING, "sourcePodName", ""
+178, IPFIX_FT_DESTINATIONPODNAMESPACE,   65535, IPFIX_CODING_STRING, "destinationPodNamespace", ""
+179, IPFIX_FT_DESTINATIONPODNAME,        65535, IPFIX_CODING_STRING, "destinationPodName", ""
