@@ -30,8 +30,8 @@ int main ( int argc, char **argv )
     uint8_t   proto    = 6;
     uint32_t  packets  = 100;
     uint32_t  bytes    = 12340;
-    char     sourcePodName[32] = "nsA/podA";
-    char     destPodName[32] = "nsB/podB";
+    char     *sourcePodName = "nsA/podA";
+    char     *destPodName = "nsB/podB";
 
 
     ipfix_t           *ipfixh  = NULL;
@@ -101,7 +101,12 @@ int main ( int argc, char **argv )
         fprintf( stderr, "cannot init ipfix module: %s\n", strerror(errno) );
         exit(1);
     }
-
+    
+    if ( ipfix_add_vendor_information_elements( ipfix_ft_antrea ) <0 ) {
+        fprintf( stderr, "ipfix_add_vendor_ie() failed: %s\n",
+                 strerror(errno) );
+        exit(1);
+    }
     /** open ipfix exporter
      */
     if ( ipfix_open( &ipfixh, sourceid, IPFIX_VERSION ) <0 ) {
@@ -139,8 +144,8 @@ int main ( int argc, char **argv )
                  strerror(errno) );
         exit(1);
     }
-    if ( (ipfix_add_field( ipfixh, ipfixt, IPFIX_ENO_ANTREA, IPFIX_FT_SOURCEPODNAME, 65535 ) <0 )
-         || (ipfix_add_field( ipfixh, ipfixt, IPFIX_ENO_ANTREA, IPFIX_FT_DESTINATIONPODNAME, 65535 ) <0 )) {
+    if ( (ipfix_add_field( ipfixh, ipfixt, IPFIX_ENO_ANTREA, IPFIX_FT_SOURCEPODNAME, 8) <0 )
+         || (ipfix_add_field( ipfixh, ipfixt, IPFIX_ENO_ANTREA, IPFIX_FT_DESTINATIONPODNAME, 8) <0 )) {
          fprintf( stderr, "ipfix_new_template() new fields failed: %s\n",
                           strerror(errno) );
          exit(1);
@@ -153,7 +158,7 @@ int main ( int argc, char **argv )
         printf( "[%d] export some data ... ", j );
         fflush( stdout) ;
 
-        if ( ipfix_export( ipfixh, ipfixt, srcIP, dstIP, &srcPort, &dstPort, &proto, &packets, &bytes, sourcePodName, destPodName ) <0 ) {
+        if ( ipfix_export( ipfixh, ipfixt, srcIP, dstIP, &srcPort, &dstPort, &proto, &packets, &bytes, sourcePodName, destPodName) <0 ) {
             fprintf( stderr, "ipfix_export() failed: %s\n", 
                      strerror(errno) );
             exit(1);

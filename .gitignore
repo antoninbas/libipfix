@@ -3,6 +3,7 @@ config.status
 collector/ipfix_collector
 examples/example_collector
 examples/example_exporter
+examples/Makefile
 lib/ipfix_def_fokus.h
 lib/ipfix_fields_fokus.h
 lib/ipfix_def_antrea.h
