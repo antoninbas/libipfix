@@ -42,8 +42,8 @@ CCOPT = -Wall -g
 INCLS = -I. -I.. -I../lib -I../libmisc
 CFLAGS = $(CCOPT) $(INCLS) $(DEFS)
 
-TARGETS = example_exporter example_collector @IPFIX_DB_EXAMPLES@
-OBJS = example_exporter.o example_collector.o example_collector_db.o
+TARGETS = antrea_exporter example_exporter example_collector @IPFIX_DB_EXAMPLES@
+OBJS = antrea_exporter.o example_exporter.o example_collector.o example_collector_db.o
 CLEANFILES = $(OBJS) $(TARGETS)
 
 all: $(TARGETS)
@@ -60,6 +60,9 @@ install:
 example_exporter: example_exporter.o Makefile
 	$(CC) $(CFLAGS) $(CPPFLAGS) -o $@ example_exporter.o $(LDFLAGS) $(LIBS)
 
+antrea_exporter: antrea_exporter.o Makefile
+	$(CC) $(CFLAGS) $(CPPFLAGS) -o $@ antrea_exporter.o $(LDFLAGS) $(LIBS)
+
 example_collector: example_collector.o Makefile
 	$(CC) $(CFLAGS) $(CPPFLAGS) -o $@ example_collector.o $(LDFLAGS) $(LIBS)
 
@@ -74,5 +77,8 @@ example_collector_db.o: example_collector_db.c Makefile
 
 example_exporter.o: example_exporter.c Makefile
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c example_exporter.c
+
+antrea_exporter.o: antrea_exporter.c Makefile
+	$(CC) $(CFLAGS) $(CPPFLAGS) -c antrea_exporter.c
 
 uninstall:
